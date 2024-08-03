@@ -10,6 +10,7 @@ Route::get('/', function () {
 });
 
 Route::get('/post/list', [PostController::class, 'list'])->name('post.list');
+Route::get('/post/view/{id}', [PostController::class, 'detail'])->name('post.view');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

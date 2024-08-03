@@ -13,7 +13,7 @@ class PostController extends Controller
 
     public function index()
     {
-        $posts = Post::paginate(5);
+        $posts = Post::latest()->paginate(5);
         return view('post.app', compact('posts'));
     }
 
@@ -31,7 +31,7 @@ class PostController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'post_category_id' => 'required|exists:post_categories,id'
         ]);
-        $post = new Post();     
+        $post = new Post();
         $post->title = $request->title;
         $post->body = $request->body;
 
@@ -90,9 +90,34 @@ class PostController extends Controller
         return redirect()->route('posts.index')->with('success', 'Post deleted successfully');
     }
 
-    public function list()
+    public function list(Request $request)
     {
-        $posts = Post::paginate(5);
-        return view('frontend.index', compact('posts'));
+        $query = $request->input('query');
+        $categoryId = $request->input('category_id');
+
+        $posts = Post::query();
+
+        if ($query) {
+            $posts->where(function ($q) use ($query) {
+                $q->where('title', 'LIKE', "%{$query}%")
+                    ->orWhere('body', 'LIKE', "%{$query}%");
+            });
+        }
+
+        if ($categoryId) {
+            $posts->where('post_category_id', $categoryId);
+        }
+
+        $posts = $posts->paginate(5);
+
+        $categories = PostCategory::all();
+
+        return view('frontend.index', compact('posts', 'categories'));
+    }
+
+    public function detail($id)
+    {
+        $post = Post::find($id);
+        return view('frontend.detail', compact('post'));
     }
 }
