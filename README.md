@@ -102,7 +102,7 @@ To run the tests, use the following command:
 
 ```sh
 php artisan test
-
+```
 
 ## API documentation
 
