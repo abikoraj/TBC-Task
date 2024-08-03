@@ -102,3 +102,9 @@ To run the tests, use the following command:
 
 ```sh
 php artisan test
+
+
+## API documentation
+
+`https://documenter.getpostman.com/view/31955515/2sA3rwMZod`
+
