@@ -65,6 +65,12 @@ This is a Laravel project that includes user authentication, CRUD operations, an
     php artisan migrate
     ```
 
+8. **Link the storage:**
+
+    ```sh
+    php artisan storage:link
+    ```
+
 
 ## Running the Project
 
